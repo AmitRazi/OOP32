@@ -46,6 +46,8 @@ public class Ex2_1 {
                 FileReader file = new FileReader(fileNames[i]);
                 BufferedReader reader = new BufferedReader(file);
                 while(reader.readLine() != null) sumOfLines++;
+                reader.close();
+                file.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -55,16 +57,24 @@ public class Ex2_1 {
 
     public static int getNumOfLinesThreads(String[] fileNames) {
         int sumOfLines = 0;
-        for(String str: fileNames){
-            LineReaderThread reader = new LineReaderThread(str);
-            reader.start();
+        LineReaderThread threads[] = new LineReaderThread[fileNames.length];
+        for(int i = 0 ; i < fileNames.length ; i++){
+            threads[i] = new LineReaderThread(fileNames[i]);
+    }
+        for(int i = 0 ; i < fileNames.length ; i++){
+            threads[i].start();
+        }
+        for(int i = 0 ; i < fileNames.length ; i++){
             try {
-                reader.join();
+                threads[i].join();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            sumOfLines+=reader.getValue();
-    }
+        }
+        for(int i = 0 ; i < fileNames.length ; i++){
+           sumOfLines+= threads[i].getValue();
+        }
+
     return sumOfLines;
     }
 
@@ -77,9 +87,9 @@ public class Ex2_1 {
            futures.add(future);
         }
 
-        for(Future<Integer> future : futures){
+        for(int i = 0 ; i < fileNames.length ; i++){
             try {
-                sumOfLines+=future.get();
+                sumOfLines+=futures.get(i).get();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (ExecutionException e) {

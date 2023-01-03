@@ -3,7 +3,7 @@ import java.nio.Buffer;
 
 public class LineReaderThread extends Thread{
     String fileName;
-    private volatile int value;
+    private volatile int  value;
 
     public LineReaderThread(String fileName){
         this.fileName = fileName;
@@ -15,6 +15,8 @@ public class LineReaderThread extends Thread{
             FileReader file = new FileReader(fileName);
             BufferedReader reader = new BufferedReader(file);
             while(reader.readLine() != null) value++;
+            reader.close();
+            file.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
