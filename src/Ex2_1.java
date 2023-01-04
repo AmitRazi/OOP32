@@ -12,14 +12,14 @@ public class Ex2_1 {
         String[] arr = new String[n];
         for(int i = 0 ; i < n ; i++) {
            File file = new File(String.format("file_%d.txt", i));
-            fillTextFiles(file,seed,bound);
+            fillTextFiles(file,bound);
            arr[i] = file.getName();
 
         }
         return arr;
     }
 
-    private static void fillTextFiles(File file, int seed, int bound){
+    private static void fillTextFiles(File file, int bound){
         try {
             FileWriter writer = new FileWriter(file);
             int lines = rand.nextInt(bound);
@@ -63,7 +63,7 @@ public class Ex2_1 {
         for(int i = 0 ; i < fileNames.length ; i++){
             try {
                 threads[i].join();
-                sumOfLines+= threads[i].getValue();
+                sumOfLines+= threads[i].getCount();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

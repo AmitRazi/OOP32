@@ -2,18 +2,18 @@ import java.io.*;
 
 public class LineReaderThread extends Thread{
     String fileName;
-    private volatile int  value;
+    private volatile int  count;
 
     public LineReaderThread(String fileName){
         this.fileName = fileName;
     }
     @Override
     public void run(){
-        value = 0;
+        count = 0;
         try {
             FileReader file = new FileReader(fileName);
             BufferedReader reader = new BufferedReader(file);
-            while(reader.readLine() != null) value++;
+            while(reader.readLine() != null) count++;
             reader.close();
             file.close();
         } catch (IOException e) {
@@ -21,7 +21,7 @@ public class LineReaderThread extends Thread{
         }
     }
 
-    public int getValue(){
-        return this.value;
+    public int getCount(){
+        return this.count;
     }
 }
