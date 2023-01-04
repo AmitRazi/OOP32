@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.Buffer;
 
 public class LineReaderThread extends Thread{
     String fileName;
