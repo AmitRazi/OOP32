@@ -1,6 +1,5 @@
-import javax.annotation.processing.Filer;
+
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +23,6 @@ public class Ex2_1 {
         try {
             FileWriter writer = new FileWriter(file);
             int lines = rand.nextInt(bound);
-            System.out.println(lines);
             for(int i = 0 ; i < lines ; i++){
                 if(i == lines -1){
                     writer.append("Hello world");
@@ -57,24 +55,19 @@ public class Ex2_1 {
 
     public static int getNumOfLinesThreads(String[] fileNames) {
         int sumOfLines = 0;
-        LineReaderThread threads[] = new LineReaderThread[fileNames.length];
+        LineReaderThread[] threads = new LineReaderThread[fileNames.length];
         for(int i = 0 ; i < fileNames.length ; i++){
             threads[i] = new LineReaderThread(fileNames[i]);
-    }
-        for(int i = 0 ; i < fileNames.length ; i++){
             threads[i].start();
-        }
+    }
         for(int i = 0 ; i < fileNames.length ; i++){
             try {
                 threads[i].join();
+                sumOfLines+= threads[i].getValue();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        for(int i = 0 ; i < fileNames.length ; i++){
-           sumOfLines+= threads[i].getValue();
-        }
-
     return sumOfLines;
     }
 
