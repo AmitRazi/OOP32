@@ -67,6 +67,10 @@ The class has one constructor which gets the name of the file to perform the tas
 ```
 In our implemention, it counts the number of lines and **returns** the count.
 
+### Class Diagram
+![This is an image](image.png)
+
+
 ## Test Method
 Because of the unpredictability of threads, we will test each counting method on the same exact files, and perform the count 50 times. We will keep the times in an array, calculate the average for each method, and compare them.
 
