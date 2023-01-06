@@ -6,7 +6,15 @@ import java.util.Random;
 import java.util.concurrent.*;
 
 public class Ex2_1 {
-    static Random rand;
+    private static Random rand;
+
+    /**
+     * Creates text files and fills them with a random number of lines of "Hello Word".
+     * @param n - The number of files to user wishes to create.
+     * @param seed - seed for the geneartion of "random" numbers.
+     * @param bound - The largest integer the random number generator may return.
+     * @return A string array with the file names of all the files created.
+     */
     public static String[] createTextFiles(int n, int seed, int bound){
         rand = new Random(seed);
         String[] arr = new String[n];
@@ -19,6 +27,11 @@ public class Ex2_1 {
         return arr;
     }
 
+    /**
+     * Helper function for createTextFiles. It fills the text files with the generated random number of lines.
+     * @param file - Text file to be filled.
+     * @param bound - The largest integer the random number generator may return.
+     */
     private static void fillTextFiles(File file, int bound){
         try {
             FileWriter writer = new FileWriter(file);
@@ -37,6 +50,11 @@ public class Ex2_1 {
 
     }
 
+    /**
+     *This function performs the count on a single thread - the thread of the caller.
+     * @param fileNames - String array of file names to be counted.
+     * @return Summation of all the lines.
+     */
     public static int getNumOfLines(String[] fileNames){
         int sumOfLines = 0;
         for(int i = 0 ; i < fileNames.length ; i++){
@@ -53,6 +71,11 @@ public class Ex2_1 {
         return sumOfLines;
     }
 
+    /**
+     *This function performs the count on fileNames.length number of threads, using instances of LineReaderThread.
+     * @param fileNames - String array of file names to be counted.
+     * @return Summation of all the lines.
+     */
     public static int getNumOfLinesThreads(String[] fileNames) {
         int sumOfLines = 0;
         LineReaderThread[] threads = new LineReaderThread[fileNames.length];
@@ -71,6 +94,12 @@ public class Ex2_1 {
     return sumOfLines;
     }
 
+    /**
+     *This function uses to ExecutorService to initiate a fixed ThreadPool of size fileNmaes.length.
+     * Instances of the class CallableLineReader are submited to the Executor.
+     * @param fileNames - String array of file names to be counted.
+     * @return Summation of all the lines.
+     */
     public static int getNumOfLinesThreadPool(String[] fileNames){
         int sumOfLines = 0;
         ExecutorService service = Executors.newFixedThreadPool(fileNames.length);
@@ -83,9 +112,7 @@ public class Ex2_1 {
         for(int i = 0 ; i < fileNames.length ; i++){
             try {
                 sumOfLines+=futures.get(i).get();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         }

@@ -21,6 +21,5 @@ public class Main {
     for(long i: averageTime1)
         sum+=i;
         System.out.println(sum/50);
-
     }
 }
