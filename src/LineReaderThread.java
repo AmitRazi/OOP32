@@ -3,7 +3,7 @@ import java.io.*;
 /**
  * This class counts the number of lines in a text file.
  * It extends Thread to allow the operation to be performed on a branching thread.
- * To allow the caller to retrieve the number of lines, the class also a variable count, and a funcction getCount().
+ * To allow the caller to retrieve the number of lines, the class also a variable count, and a function getCount().
  */
 public class LineReaderThread extends Thread{
     String fileName;
